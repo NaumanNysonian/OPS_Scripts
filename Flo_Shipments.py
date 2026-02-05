@@ -154,8 +154,14 @@ def configure_logging(log_dir=None, log_level=None):
   return LOG
 
 
-def load_env_file(path=".env"):
+def load_env_file(path=None):
   # Load environment variables from a local .env file.
+  if not path:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(script_dir, ".env")
+  elif not os.path.isabs(path):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(script_dir, path)
   if not os.path.exists(path):
     return
   try:
